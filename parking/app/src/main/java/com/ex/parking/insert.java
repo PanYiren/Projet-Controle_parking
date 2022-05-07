@@ -106,17 +106,14 @@ public class insert extends AppCompatActivity {
                 if (radioButton1.isChecked()){
                     isChecked = radioButton1.getText().toString();
                 }
-                String res = "0";
-                String vis = "0";
+                String profile = "";
                 if (isChecked.equals("Résident")){
-                    res = "1";
-                    vis = "0";
+                    profile = "resident";
                 }
                 else if (isChecked.equals("Visiteur")){
-                    vis = "1";
-                    res = "0";
+                    profile = "visiteur";
                 }
-                new Insert().execute(imma, res, vis);
+                new Insert().execute(imma, profile);
                 finish();
                 startActivity(getIntent());
             }
@@ -148,7 +145,7 @@ public class insert extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://192.168.1.13/ProjetParking/insert.php");
+                url = new URL("http://10.4.253.91/ProjetParking/insert.php");
             }
             catch (MalformedURLException e){
                 e.printStackTrace();
@@ -167,8 +164,7 @@ public class insert extends AppCompatActivity {
                 //append parameters url
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("idImma", params[0])
-                        .appendQueryParameter("IsResident", params[1])
-                        .appendQueryParameter("IsVisiteur", params[2]);
+                        .appendQueryParameter("Profile", params[1]);
                 String query = builder.build().getEncodedQuery();
                 //open conncetion for sending data
                 OutputStream os = conn.getOutputStream();

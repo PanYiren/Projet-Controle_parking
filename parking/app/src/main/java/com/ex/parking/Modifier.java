@@ -117,15 +117,14 @@ public class Modifier extends AppCompatActivity {
                 if (radioButton1.isChecked()){
                     isChecked = radioButton1.getText().toString();
                 }
-                String res = "0";
-                String vis = "0";
+                String profile = "";
                 if (isChecked.equals("Resident")){
-                    res = "1";
+                    profile = "resident";
                 }
                 else if (isChecked.equals("Visiteur")){
-                    vis = "1";
+                    profile = "visiteur";
                 }
-                new Modifie().execute(imma, res, vis, spinner.getSelectedItem().toString());
+                new Modifie().execute(imma, profile, spinner.getSelectedItem().toString());
                 finish();
                 startActivity(getIntent());
             }
@@ -147,7 +146,7 @@ public class Modifier extends AppCompatActivity {
 
         @Override
         protected JSONObject doInBackground(Void... params) {
-            String str = "http://192.168.1.13/ProjetParking/nom.php";
+            String str = "http://10.4.253.91/ProjetParking/nom.php";
             URLConnection urlConn = null;
             BufferedReader bufferedReader = null;
             try {
@@ -215,7 +214,7 @@ public class Modifier extends AppCompatActivity {
         @Override
         protected JSONObject doInBackground(String... params) {
             try {
-                url = new URL("http://192.168.1.13/ProjetParking/infos.php");
+                url = new URL("http://10.4.253.91/ProjetParking/infos.php");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -273,13 +272,13 @@ public class Modifier extends AppCompatActivity {
 
         protected void onPostExecute(JSONObject result){
             try {
-                if (result.getString("Resident").equals("1") && result.getString("Visiteur").equals("0")){
+                if (result.getString("Profile").equals("resident")){
                     radioButton.setChecked(true);
                 }
-                else if (result.getString("Resident").equals("0") && result.getString("Visiteur").equals("1")){
+                else if (result.getString("Profile").equals("visiteur")){
                     radioButton1.setChecked(true);
                 }
-                else if(result.getString("Resident").equals("0") && result.getString("Visiteur").equals("0")){
+                else{
                     radioButton.setChecked(false);
                     radioButton1.setChecked(false);
                 }
@@ -307,7 +306,7 @@ public class Modifier extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://192.168.1.13/ProjetParking/modifier.php");
+                url = new URL("http://10.4.253.91/ProjetParking/modifier.php");
             }
             catch (MalformedURLException e){
                 e.printStackTrace();
@@ -326,9 +325,8 @@ public class Modifier extends AppCompatActivity {
                 //append parameters url
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("idImma", params[0])
-                        .appendQueryParameter("IsResident", params[1])
-                        .appendQueryParameter("IsVisiteur", params[2])
-                        .appendQueryParameter("Imma", params[3]);
+                        .appendQueryParameter("Profile", params[1])
+                        .appendQueryParameter("Imma", params[2]);
                 String query = builder.build().getEncodedQuery();
                 //open conncetion for sending data
                 OutputStream os = conn.getOutputStream();

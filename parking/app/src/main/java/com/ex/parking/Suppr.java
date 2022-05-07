@@ -121,7 +121,7 @@ public class Suppr extends AppCompatActivity {
 
         @Override
         protected JSONObject doInBackground(Void... params) {
-            String str = "http://192.168.1.13/ProjetParking/nom.php";
+            String str = "http://10.4.253.91/ProjetParking/nom.php";
             URLConnection urlConn = null;
             BufferedReader bufferedReader = null;
             try {
@@ -189,7 +189,7 @@ public class Suppr extends AppCompatActivity {
         @Override
         protected JSONObject doInBackground(String... params) {
             try {
-                url = new URL("http://192.168.1.13/ProjetParking/infos.php");
+                url = new URL("http://10.4.253.91/ProjetParking/infos.php");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -248,13 +248,13 @@ public class Suppr extends AppCompatActivity {
         protected void onPostExecute(JSONObject result){
             try {
                 String status = null;
-                if (result.getString("Resident").equals("1") && result.getString("Visiteur").equals("0")){
+                if (result.getString("Profile").equals("resident")){
                     status = "Résident";
                 }
-                else if (result.getString("Resident").equals("0") && result.getString("Visiteur").equals("1")){
+                else if (result.getString("Profile").equals("visiteur")){
                     status = "Visiteur";
                 }
-                else if(result.getString("Resident").equals("0") && result.getString("Visiteur").equals("0")){
+                else{
                     status = "Inconnu";
                 }
                 textView2.setText(
@@ -283,7 +283,7 @@ public class Suppr extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://192.168.1.13/ProjetParking/delete.php");
+                url = new URL("http://10.4.253.91/ProjetParking/delete.php");
             }
             catch (MalformedURLException e){
                 e.printStackTrace();

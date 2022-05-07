@@ -101,17 +101,14 @@ public class Connection_base extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         String idRV = spinner.getSelectedItem().toString();
-                        String isresident = "0";
-                        String isvisiteur ="0";
+                        String profile = "";
                         if (idRV.equals("Resident")){
-                            isresident = "1";
-                            isvisiteur = "0";
+                            profile = "resident";
                         }
                         if (idRV.equals("Visiteur")){
-                            isvisiteur = "1";
-                            isresident = "0";
+                            profile = "visiteur";
                         }
-                        new Lister().execute(isresident, isvisiteur);
+                        new Lister().execute(profile);
                         textView.setText("");
                     }
 
@@ -172,7 +169,7 @@ public class Connection_base extends AppCompatActivity {
 
         @Override
         protected JSONObject doInBackground(Void... params) {
-            String str = "http://192.168.1.13/ProjetParking/nom.php";
+            String str = "http://10.4.253.91/ProjetParking/nom.php";
             URLConnection urlConn = null;
             BufferedReader bufferedReader = null;
             try {
@@ -241,7 +238,7 @@ public class Connection_base extends AppCompatActivity {
         @Override
         protected JSONObject doInBackground(String... params) {
             try {
-                url = new URL("http://192.168.1.13/ProjetParking/infos.php");
+                url = new URL("http://10.4.253.91/ProjetParking/infos.php");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -300,13 +297,13 @@ public class Connection_base extends AppCompatActivity {
         protected void onPostExecute(JSONObject result){
             try {
                 String status = null;
-                if (result.getString("Resident").equals("1") && result.getString("Visiteur").equals("0")){
+                if (result.getString("Profile").equals("resident")){
                     status = "Résident";
                 }
-                else if (result.getString("Resident").equals("0") && result.getString("Visiteur").equals("1")){
+                else if (result.getString("Profile").equals("visiteur")){
                     status = "Visiteur";
                 }
-                else if(result.getString("Resident").equals("0") && result.getString("Visiteur").equals("0")){
+                else{
                     status = "Inconnu";
                 }
                 textView.setText(
@@ -327,7 +324,7 @@ public class Connection_base extends AppCompatActivity {
         @Override
         protected JSONObject doInBackground(String... params) {
             try {
-                url = new URL("http://192.168.1.13/ProjetParking/lister.php");
+                url = new URL("http://10.4.253.91/ProjetParking/lister.php");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -343,8 +340,7 @@ public class Connection_base extends AppCompatActivity {
                 conn.setDoOutput(true);
                 //append parameters url
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("isResident", params[0])
-                        .appendQueryParameter("isVisiteur", params[1]);
+                        .appendQueryParameter("Profile", params[0]);
                 String query = builder.build().getEncodedQuery();
                 //open conncetion for sending data
                 OutputStream os = conn.getOutputStream();

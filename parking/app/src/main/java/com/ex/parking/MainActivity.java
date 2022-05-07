@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://192.168.1.13/ProjetParking/login.php");
+                url = new URL("http://10.4.253.91/ProjetParking/login.php");
             }
             catch (MalformedURLException e){
                 e.printStackTrace();
